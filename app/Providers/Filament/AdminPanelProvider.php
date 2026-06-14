@@ -18,7 +18,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-
+use Filament\Navigation\NavigationGroup;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -40,6 +40,16 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,
+            ])
+            ->navigationGroups([
+            // 📌 POSISI ARRAY KE-1 = OTOMATIS JADI URUTAN UTAMA PERTAMA (Misal Dashboard / Menu lain)
+            NavigationGroup::make()
+                ->label('Kriteria & Bobot AHP'),
+            // 📌 POSISI ARRAY KE-2 = OTOMATIS MENJADI URUTAN KE-2 DI SIDEBAR
+            NavigationGroup::make()
+                ->label('Dashboard Utama'),
+        
+            // 📌 POSISI ARRAY KE-3 = OTOMATIS MENJADI URUTAN KE-3
             ])
             ->middleware([
                 EncryptCookies::class,
