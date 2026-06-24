@@ -8,11 +8,11 @@ use App\Models\WeightAhpResult;
 
 class NormalizationAhpStatsWidget extends StatsOverviewWidget
 {
+    protected static ?int $sort = 2;
+
     protected function getStats(): array
     {
-        // return [
-        //     //
-        // ];
+        
         $wr = WeightAhpResult::first();
 
         if (!$wr) {

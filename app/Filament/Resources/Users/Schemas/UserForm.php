@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -19,6 +19,19 @@ class UserForm
                     ->email()
                     ->required()
                     ->extraInputAttributes(['autocomplete' => 'new-password']), // Blokir auto-fill browser
+                Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->label('Role')
+                    ->preload()
+                    ->required(),
+                // Select::make('role') 
+                //     ->label('Role')
+                //     ->options([
+                //         'super_admin' => 'Super Admin',
+                //         'kepala_sekolah' => 'Kepala Sekolah',
+                //         'admin_kantor' => 'Admin Kantor',
+                //     ])
+                //     ->required(),
                 // DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')
                     ->password()

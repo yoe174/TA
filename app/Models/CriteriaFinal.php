@@ -14,12 +14,14 @@ class CriteriaFinal extends Model
         'nama_kriteria',
         'jenis',
         'bobot',
+        'ri',
         'cr',
         'is_consistent',
     ];
 
     protected $casts = [
         'bobot'         => 'decimal:6',
+        'ri'            => 'decimal:6',
         'cr'            => 'decimal:6',
         'is_consistent' => 'boolean',
     ];

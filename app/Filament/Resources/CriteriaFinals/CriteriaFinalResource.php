@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources\CriteriaFinals;
 
-use App\Filament\Resources\CriteriaFinals\Pages\CreateCriteriaFinal;
-use App\Filament\Resources\CriteriaFinals\Pages\EditCriteriaFinal;
 use App\Filament\Resources\CriteriaFinals\Pages\ListCriteriaFinals;
 use App\Filament\Resources\CriteriaFinals\Schemas\CriteriaFinalForm;
 use App\Filament\Resources\CriteriaFinals\Tables\CriteriaFinalsTable;
 use App\Filament\Widgets\NormalizationAhpStatsWidget;
-use App\Models\CriteriaAHP;
 use App\Models\CriteriaFinal;
 use BackedEnum;
 use UnitEnum;
@@ -21,7 +18,7 @@ class CriteriaFinalResource extends Resource
 {
     protected static ?string $model = CriteriaFinal::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentList;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::ClipboardDocumentCheck;
 
     protected static string|UnitEnum|null $navigationGroup = 'Kriteria & Bobot AHP';
 
@@ -42,7 +39,6 @@ class CriteriaFinalResource extends Resource
     {
         return CriteriaFinalsTable::configure($table);
 
-        return CriteriaAHPTable::configure($table);
     }
 
     // Tampilkan stats CI/RI/CR di atas tabel sebagai referensi

@@ -14,6 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
+use App\Services\LaporanPdfAhpService;
 
 class CriteriaFinalsTable
 {
@@ -44,20 +45,20 @@ class CriteriaFinalsTable
 
                 TextColumn::make('bobot')
                     ->label('Bobot')
-                    ->formatStateUsing(fn ($state) => number_format($state, 6))
+                    ->formatStateUsing(fn($state) => number_format($state, 6))
                     ->sortable(),
 
                 TextColumn::make('bobot_persen')
                     ->label('Bobot (%)')
-                    ->getStateUsing(fn ($record) => number_format($record->bobot * 100, 2) . '%'),
+                    ->getStateUsing(fn($record) => number_format($record->bobot * 100, 2) . '%'),
 
                 TextColumn::make('cr')
                     ->label('CR saat Ekspor')
-                    ->formatStateUsing(fn ($state) => number_format($state, 6)),
+                    ->formatStateUsing(fn($state) => number_format($state, 6)),
 
                 BadgeColumn::make('is_consistent')
                     ->label('Status')
-                    ->formatStateUsing(fn ($state) => $state ? 'Konsisten' : 'Tidak Konsisten')
+                    ->formatStateUsing(fn($state) => $state ? 'Konsisten' : 'Tidak Konsisten')
                     ->colors([
                         'success' => true,
                         'danger'  => false,
@@ -77,6 +78,30 @@ class CriteriaFinalsTable
                     ]),
             ])
             ->headerActions([
+                Action::make('cetak_laporan_ahp')
+                    ->label('Cetak Laporan AHP')
+                    ->icon('heroicon-o-printer')
+                    ->color('info')
+                    ->action(function () {
+                        $service = new LaporanPdfAhpService();
+                        $result  = $service->generate();
+
+                        if (isset($result['error'])) {
+                            Notification::make()
+                                ->title('Gagal!')
+                                ->body($result['error'])
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        $pdf = $result['pdf'];
+
+                        return response()->streamDownload(
+                            fn() => print($pdf->output()),
+                            'laporan-pembobotan-ahp.pdf'
+                        );
+                    }),
                 Action::make('ekspor')
                     ->label('Ekspor ke Kriteria Final')
                     ->icon('heroicon-o-arrow-down-tray')
@@ -120,6 +145,7 @@ class CriteriaFinalsTable
                                     'nama_kriteria' => $wr->criteria->nama_kriteria,
                                     'jenis'         => $wr->criteria->jenis,
                                     'bobot'         => $wr->bobot,
+                                    'ri'            => $wr->ri,
                                     'cr'            => $wr->cr,
                                     'is_consistent' => $wr->is_consistent,
                                 ]);

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nama_kriteria');
             $table->enum('jenis', ['benefit', 'cost']);
             $table->decimal('bobot', 10, 6);
+            $table->decimal('ri', 10, 6);
             $table->decimal('cr', 10, 6);   // bukti forensik saat ekspor
             $table->boolean('is_consistent');
             $table->timestamps();

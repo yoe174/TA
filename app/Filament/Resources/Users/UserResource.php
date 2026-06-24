@@ -11,18 +11,36 @@ use App\Filament\Resources\Users\Schemas\UserInfolist;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+// use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
+    // public static function canViewAny(): bool
+    // {
+    //     $user = Auth::user();
+
+    //     return $user ? $user->hasRole('super_admin') : false;
+    // }
+
+    // public static function canAccess(): bool
+    // {
+    //     return auth()->user()->hasAnyRole(['super_admin', 'kepala_sekolah', 'admin_kantor']);
+    // }
+
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Users;
 
     protected static ?string $recordTitleAttribute = 'user';
+
+    protected static ?int $navigationSort = 20;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Setting';
 
     public static function form(Schema $schema): Schema
     {

@@ -15,4 +15,9 @@ class CreateUser extends CreateRecord
         return Action::make('createAnother')
             ->hidden();
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
